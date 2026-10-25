@@ -63,7 +63,7 @@ To manage the Access application yourself instead, set `TEAM_DOMAIN` (`https://y
 ## 5) Validate setup
 
 1. Open the Worker URL printed at the end of the deploy.
-2. Sign in with Cloudflare Access.
+2. Sign in with Cloudflare Access. Access keeps you signed in for a month before asking again.
 3. OpenSEO should load after login.
 
 If it doesn't, see Troubleshooting below.

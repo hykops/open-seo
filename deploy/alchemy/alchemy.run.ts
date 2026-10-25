@@ -149,6 +149,8 @@ const optionalSecret = (name: string) =>
 const accessScopeHint =
   " (if this is a permissions error, re-run `pnpm alchemy login --configure`, answer yes to “Customize OAuth scopes?”, and select access:write alongside the defaults)";
 
+const SELF_HOST_ACCESS_SESSION_DURATION = "730h";
+
 /**
  * Self-host auth (AUTH_MODE=cloudflare_access): derive the Access values
  * instead of making the user copy them out of the dashboard. TEAM_DOMAIN is
@@ -240,6 +242,10 @@ const resolveSelfHostAccess = (
         applicationName: `open-seo ${stage}`,
         domain: customDomain || `${workerName(stage)}.${subdomain}`,
         emails: allowedEmails,
+        // The app verifies the Access JWT per request and keeps no session of
+        // its own, so this TTL is how long a self-host user stays signed in.
+        // 730h is Cloudflare's "1 month", the longest it accepts.
+        sessionDuration: SELF_HOST_ACCESS_SESSION_DURATION,
       });
       policyAud = application.aud;
     }

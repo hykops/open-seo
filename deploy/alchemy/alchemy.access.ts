@@ -65,6 +65,8 @@ export const emailAccessGate = (options: {
   applicationName: string;
   domain: string;
   emails: string[];
+  /** Go-style Access token TTL (e.g. "730h"); Cloudflare's default is 24h. */
+  sessionDuration?: string;
 }) =>
   Effect.gen(function* () {
     const allow = yield* Cloudflare.Access.Policy(options.policyId, {
@@ -76,6 +78,7 @@ export const emailAccessGate = (options: {
       type: "self_hosted",
       name: options.applicationName,
       domain: options.domain,
+      sessionDuration: options.sessionDuration,
       policies: [allow.policyId],
     });
   });
